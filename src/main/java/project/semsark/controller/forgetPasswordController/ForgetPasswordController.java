@@ -8,7 +8,7 @@ import project.semsark.model.AuthenticationResponse;
 import project.semsark.model.requestBody.EmailRequest;
 import project.semsark.model.requestBody.OtpRequest;
 import project.semsark.model.requestBody.UpdatePasswordRequest;
-import project.semsark.service.authService.ForgetPasswordService;
+import project.semsark.service.auth_service.ForgetPasswordService;
 
 import javax.mail.MessagingException;
 

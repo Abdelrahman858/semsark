@@ -20,7 +20,7 @@ import project.semsark.model.entity.Role;
 import project.semsark.model.entity.User;
 import project.semsark.repository.UserRepository;
 import project.semsark.repository.specification.UserSpecifications;
-import project.semsark.service.authService.VerifyEmailService;
+import project.semsark.service.auth_service.VerifyEmailService;
 import project.semsark.validation.UserDetailsValidator;
 
 import javax.mail.MessagingException;

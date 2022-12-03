@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.semsark.model.AuthenticationResponse;
 import project.semsark.model.requestBody.UpdatePasswordRequest;
-import project.semsark.service.authService.VerifyEmailService;
+import project.semsark.service.auth_service.VerifyEmailService;
 
 @RestController
 

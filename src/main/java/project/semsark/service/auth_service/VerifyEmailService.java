@@ -1,4 +1,4 @@
-package project.semsark.service.authService;
+package project.semsark.service.auth_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,11 +19,12 @@ import project.semsark.service.CustomUserDetailsService;
 import project.semsark.service.emailSenderService.EmailService;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.UUID;
 
 @Service
-public class ForgetPasswordService {
+public class VerifyEmailService {
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -31,56 +32,56 @@ public class ForgetPasswordService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
     @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
     private CustomUserDetailsService userDetailsService;
     private int otpExpirationInMs;
     @Autowired
     private OTPRepository otpRepository;
-    @Autowired
-    private JwtUtil jwtUtil;
-
 
     @Value("${otp.expirationDateInMs}")
     public void setOtpExpirationInMs(int OtpExpirationInMs) {
         this.otpExpirationInMs = OtpExpirationInMs;
     }
 
-    public void forgetPassword(String email) throws MessagingException {
-        userDetailsService.findUserByEmail(email);
+    public void sendEmailVerification(String email) throws MessagingException {
         OTP otp = otpRepository.findByEmail(email);
         if (otp == null)
             otp = new OTP();
         String uuid = UUID.randomUUID().toString();
         otp.setOtp(uuid);
         otp.setEmail(email);
-        otp.setUsed(Using.PASSWORD.name());
         otp.setCreatedAt(new Date(System.currentTimeMillis()));
         otp.setExpiredDate(new Date(System.currentTimeMillis() + otpExpirationInMs));
-        String body = "http://localhost:3000/forgetPassword/" + uuid + ",Change password";
-        String subject = "Forget password Link";
+        otp.setUsed(Using.EMAIL.name());
+        String body = "http://localhost:3000/verifyEmail/" + uuid + ",Confirm Account";
+        ;
+        String subject = "Verify email Link";
         emailService.sendEmail(email, body, subject);
         otpRepository.save(otp);
-        throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.FORGET_PASSWORD_REQUEST);
     }
 
-    public void checkOtp(String otp, String choice) {
+    @Transactional
+    public String checkOtpValid(String otp, String choice) {
         OTP otp1 = otpRepository.findByOtp(otp);
-        if (otp1 != null && otp1.getUsed().equals(Using.PASSWORD.name())) {
-            if (otp1.getExpiredDate().getTime() - System.currentTimeMillis() > 0) {
-                if (choice.equals("delete"))
-                    otpRepository.delete(otp1);
-            } else {
+        if (otp1 != null && otp1.getUsed().equals(Using.EMAIL.name())) {
+            if (choice.equals("delete")) {
                 otpRepository.delete(otp1);
-                throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, HelperMessage.OTP_EXPIRE);
+                return "Done";
             }
+            User user = userDetailsService.findUserByEmail(otp1.getEmail());
+            user.setActive(true);
+            userRepository.save(user);
+            return otp1.getEmail();
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.OTP_NOT_FOUND);
 
     }
 
-    public AuthenticationResponse updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+    public AuthenticationResponse createPassword(UpdatePasswordRequest updatePasswordRequest) {
         User user = userDetailsService.findUserByEmail(updatePasswordRequest.getEmail());
         if (user != null) {
-            checkOtp(updatePasswordRequest.getOtp(), "delete");
+            checkOtpValid(updatePasswordRequest.getOtp(), "delete");
             user.setPassword(bcryptEncoder.encode(updatePasswordRequest.getPassword()));
             userRepository.save(user);
             String token = jwtUtil.generateToken(user);
@@ -89,10 +90,5 @@ public class ForgetPasswordService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.USER_NOT_FOUND);
     }
 
+
 }
-
-
-
-
-
-
