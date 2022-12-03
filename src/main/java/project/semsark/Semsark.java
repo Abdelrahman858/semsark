@@ -10,8 +10,6 @@ public class Semsark {
     public static void main(String[] args) {
         SpringApplication.run(Semsark.class, args);
 
-
     }
-
 
 }
