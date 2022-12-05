@@ -70,7 +70,7 @@ public class VerifyEmailService {
                 return "Done";
             }
             User user = userDetailsService.findUserByEmail(otp1.getEmail());
-            user.setActive(true);
+            user.setVerify(true);
             userRepository.save(user);
             return otp1.getEmail();
         } else

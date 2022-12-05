@@ -39,7 +39,7 @@ public class UserDetailsMapper {
             user.setProfile(profileRepository.findById(userDetailsDTO.getProfileId()).get());
         }
         if (userDetailsDTO.isSocial()) {
-            user.setActive(true);
+            user.setVerify(true);
         }
         if (userDetailsDTO.getPhone() != null) {
             user.setPhone(userDetailsDTO.getPhone());

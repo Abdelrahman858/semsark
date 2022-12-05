@@ -29,7 +29,7 @@ public class AuthenticationController {
         if (user.isSuspended()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, HelperMessage.USER_IS_SUSPEND);
         }
-        if (!user.isActive()) {
+        if (!user.isVerify()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, HelperMessage.USER_NOT_VERFIED);
         }
         String token = jwtUtil.generateToken(user);
