@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.semsark.model.RoleDTO;
-import project.semsark.model.RoleResponse;
+import project.semsark.model.request_body.RoleDTO;
+import project.semsark.model.response_body.RoleResponse;
 import project.semsark.service.RoleService;
 
 import javax.validation.Valid;

@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.HelperMessage;
-import project.semsark.model.RoleDTO;
-import project.semsark.model.RoleResponse;
+import project.semsark.model.request_body.RoleDTO;
+import project.semsark.model.response_body.RoleResponse;
 import project.semsark.model.entity.Role;
 import project.semsark.repository.RoleRepository;
 

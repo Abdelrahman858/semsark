@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.semsark.jwt.JwtUtil;
-import project.semsark.model.AuthenticationResponse;
-import project.semsark.model.UserDetailsDto;
-import project.semsark.model.UserUpdate;
+import project.semsark.model.response_body.AuthenticationResponse;
+import project.semsark.model.request_body.UserDetailsDto;
+import project.semsark.model.request_body.UserUpdate;
 import project.semsark.model.entity.User;
 import project.semsark.service.CustomUserDetailsService;
 

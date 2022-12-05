@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import project.semsark.model.AuthenticationResponse;
-import project.semsark.model.requestBody.EmailRequest;
-import project.semsark.model.requestBody.OtpRequest;
-import project.semsark.model.requestBody.UpdatePasswordRequest;
+import project.semsark.model.response_body.AuthenticationResponse;
+import project.semsark.model.request_body.EmailRequest;
+import project.semsark.model.request_body.OtpRequest;
+import project.semsark.model.request_body.UpdatePasswordRequest;
 import project.semsark.service.auth_service.ForgetPasswordService;
 
 import javax.mail.MessagingException;

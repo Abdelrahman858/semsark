@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.HelperMessage;
 import project.semsark.mapper.UserDetailsMapper;
-import project.semsark.model.UserDetailsDto;
+import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.entity.Profile;
 import project.semsark.model.entity.User;
 import project.semsark.model.enums.ProfileName;

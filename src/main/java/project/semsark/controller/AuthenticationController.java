@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.HelperMessage;
 import project.semsark.jwt.JwtUtil;
-import project.semsark.model.AuthenticationRequest;
-import project.semsark.model.AuthenticationResponse;
-import project.semsark.model.RefreshTokenResponse;
+import project.semsark.model.request_body.AuthenticationRequest;
+import project.semsark.model.response_body.AuthenticationResponse;
+import project.semsark.model.response_body.RefreshTokenResponse;
 import project.semsark.model.entity.User;
 import project.semsark.service.CustomUserDetailsService;
 

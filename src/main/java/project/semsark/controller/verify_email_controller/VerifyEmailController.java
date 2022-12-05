@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import project.semsark.model.AuthenticationResponse;
-import project.semsark.model.requestBody.UpdatePasswordRequest;
+import project.semsark.model.response_body.AuthenticationResponse;
+import project.semsark.model.request_body.UpdatePasswordRequest;
 import project.semsark.service.auth_service.VerifyEmailService;
 
 @RestController

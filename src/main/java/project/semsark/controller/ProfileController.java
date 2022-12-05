@@ -3,8 +3,8 @@ package project.semsark.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.semsark.model.MainProfileRequest;
-import project.semsark.model.ProfileResponse;
+import project.semsark.model.request_body.MainProfileRequest;
+import project.semsark.model.response_body.ProfileResponse;
 import project.semsark.service.MainProfileService;
 
 import javax.validation.Valid;

@@ -1,4 +1,4 @@
-package project.semsark.model;
+package project.semsark.model.request_body;
 
 import lombok.*;
 

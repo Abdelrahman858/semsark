@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.HelperMessage;
 import project.semsark.model.entity.Opinion;
-import project.semsark.model.requestBody.OpinionRequest;
+import project.semsark.model.request_body.OpinionRequest;
 import project.semsark.repository.OpinionRepo;
 
 import java.util.List;

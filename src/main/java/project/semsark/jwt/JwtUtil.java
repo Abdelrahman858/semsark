@@ -3,14 +3,19 @@ package project.semsark.jwt;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.server.ResponseStatusException;
+import project.semsark.HelperMessage;
 import project.semsark.exception.JwtExpiredException;
-import project.semsark.model.RefreshTokenResponse;
 import project.semsark.model.entity.TokenStore;
 import project.semsark.model.entity.User;
+import project.semsark.model.response_body.RefreshTokenResponse;
 import project.semsark.repository.TokensRepository;
 import project.semsark.repository.UserRepository;
 
@@ -23,6 +28,8 @@ public class JwtUtil {
 
     private String secret;
     private int jwtExpirationInMs;
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+
 
     @Autowired
     private TokensRepository tokensRepository;
@@ -46,8 +53,9 @@ public class JwtUtil {
         if (user.getProfile() != null) {
             user.getProfile().getRoles().forEach(grantedAuthority -> roles.add(grantedAuthority.getName()));
         }
+
         claims.put("roles", roles);
-        String token = doGenerateToken(claims, user.getUsername());
+        String token = doGenerateToken(claims, user.getEmail());
         storeTokenInStore(user, token);
         return token;
     }
@@ -103,6 +111,17 @@ public class JwtUtil {
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         return claims.getSubject();
+    }
+    public User getUserDataFromToken() {
+        String token = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+                .getRequestAttributes())).getRequest()
+                .getHeader(AUTHORIZATION_HEADER)
+                .substring(7);
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        Optional<User> user = userRepository.findByEmail(claims.getSubject());
+        if(user.isPresent())
+            return user.get();
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND);
     }
 
     public List<SimpleGrantedAuthority> getRolesFromToken(String token) {

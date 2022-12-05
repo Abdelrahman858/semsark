@@ -1,4 +1,4 @@
-package project.semsark.model;
+package project.semsark.model.response_body;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

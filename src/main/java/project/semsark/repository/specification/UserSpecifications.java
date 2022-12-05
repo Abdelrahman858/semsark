@@ -3,7 +3,7 @@ package project.semsark.repository.specification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.data.jpa.domain.Specification;
-import project.semsark.model.UserSearchParameters;
+import project.semsark.model.request_body.UserSearchParameters;
 import project.semsark.model.entity.User;
 
 import javax.persistence.criteria.CriteriaBuilder;

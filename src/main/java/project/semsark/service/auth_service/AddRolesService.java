@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import project.semsark.model.MainProfileRequest;
+import project.semsark.model.request_body.MainProfileRequest;
 import project.semsark.model.entity.Profile;
 import project.semsark.model.entity.Role;
 import project.semsark.model.enums.Roles;

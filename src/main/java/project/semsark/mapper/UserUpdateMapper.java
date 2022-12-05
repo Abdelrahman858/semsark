@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import project.semsark.model.UserUpdate;
+import project.semsark.model.request_body.UserUpdate;
 import project.semsark.model.entity.User;
 import project.semsark.repository.MainProfileRepository;
 
