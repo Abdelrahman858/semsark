@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.jwt.JwtUtil;
 import project.semsark.model.response_body.AuthenticationResponse;
 import project.semsark.model.entity.OTP;
@@ -16,14 +16,19 @@ import project.semsark.model.request_body.UpdatePasswordRequest;
 import project.semsark.repository.OTPRepository;
 import project.semsark.repository.UserRepository;
 import project.semsark.service.CustomUserDetailsService;
+import project.semsark.service.emailSenderService.EmailSenderService;
 import project.semsark.service.emailSenderService.EmailService;
 
 import javax.mail.MessagingException;
 import java.util.Date;
-import java.util.UUID;
+import java.util.Random;
+
+import static project.semsark.global_methods.GlobalMethods.generateOtp;
 
 @Service
 public class ForgetPasswordService {
+    @Autowired
+    EmailSenderService emailSenderService;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -40,27 +45,30 @@ public class ForgetPasswordService {
 
 
     @Value("${otp.expirationDateInMs}")
-    public void setOtpExpirationInMs(int OtpExpirationInMs) {
-        this.otpExpirationInMs = OtpExpirationInMs;
+    public void setOtpExpirationInMs(int otpExpirationInMs) {
+        this.otpExpirationInMs = otpExpirationInMs;
+    }
+    public void forgetPassword(String email) throws MessagingException {
+        if(userRepository.findByEmail(email).isPresent()){
+            OTP otp = otpRepository.findByEmail(email);
+            if (otp == null)
+                otp = new OTP();
+            otp.setOtp(generateOtp());
+            otp.setEmail(email);
+            otp.setUsed(Using.PASSWORD.name());
+            otp.setCreatedAt(new Date(System.currentTimeMillis()));
+            otp.setExpiredDate(new Date(System.currentTimeMillis() + otpExpirationInMs));
+            String body = otp.getOtp();
+            String subject = "Forget Password OTP";
+            emailSenderService.sendSimpleEmail(email, body, subject);
+            otpRepository.save(otp);
+            throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.FORGET_PASSWORD_REQUEST);
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_WRONG);
+
     }
 
-    public void forgetPassword(String email) throws MessagingException {
-        userDetailsService.findUserByEmail(email);
-        OTP otp = otpRepository.findByEmail(email);
-        if (otp == null)
-            otp = new OTP();
-        String uuid = UUID.randomUUID().toString();
-        otp.setOtp(uuid);
-        otp.setEmail(email);
-        otp.setUsed(Using.PASSWORD.name());
-        otp.setCreatedAt(new Date(System.currentTimeMillis()));
-        otp.setExpiredDate(new Date(System.currentTimeMillis() + otpExpirationInMs));
-        String body = "http://localhost:3000/forgetPassword/" + uuid + ",Change password";
-        String subject = "Forget password Link";
-        emailService.sendEmail(email, body, subject);
-        otpRepository.save(otp);
-        throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.FORGET_PASSWORD_REQUEST);
-    }
+
 
     public void checkOtp(String otp, String choice) {
         OTP otp1 = otpRepository.findByOtp(otp);

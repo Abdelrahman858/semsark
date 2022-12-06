@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.model.entity.User;
 import project.semsark.repository.UserRepository;
 

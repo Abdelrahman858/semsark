@@ -8,10 +8,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.exception.JwtExpiredException;
 import project.semsark.model.entity.TokenStore;
 import project.semsark.model.entity.User;
@@ -21,6 +19,8 @@ import project.semsark.repository.UserRepository;
 
 import java.util.*;
 
+import static project.semsark.global_methods.GlobalMethods.getToken;
+
 @Service
 public class JwtUtil {
 
@@ -28,7 +28,6 @@ public class JwtUtil {
 
     private String secret;
     private int jwtExpirationInMs;
-    private static final String AUTHORIZATION_HEADER = "Authorization";
 
 
     @Autowired
@@ -71,9 +70,8 @@ public class JwtUtil {
         Jws<Claims> jwsClaims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
         Map<String, Object> claims = getMapFromIoJsonwebtokenClaims(jwsClaims.getBody());
         RefreshTokenResponse refreshTokenResponse = doGenerateRefreshToken(claims, claims.get(SUBJECT_KEY).toString());
-        Optional<User> user = userRepository.findByUsername(getUsernameFromToken(token));
-        storeTokenInStore(user.get(), refreshTokenResponse.getRefreshToken());
-
+        User user = getUserDataFromToken();
+        storeTokenInStore(user, refreshTokenResponse.getRefreshToken());
         return refreshTokenResponse;
     }
 
@@ -112,14 +110,12 @@ public class JwtUtil {
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
     public User getUserDataFromToken() {
-        String token = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
-                .getRequestAttributes())).getRequest()
-                .getHeader(AUTHORIZATION_HEADER)
-                .substring(7);
+        String token = getToken();
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         Optional<User> user = userRepository.findByEmail(claims.getSubject());
-        if(user.isPresent())
+        if (user.isPresent())
             return user.get();
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND);
     }

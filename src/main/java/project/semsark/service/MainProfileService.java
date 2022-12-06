@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.model.request_body.MainProfileRequest;
 import project.semsark.model.response_body.ProfileResponse;
 import project.semsark.model.request_body.RoleDTO;

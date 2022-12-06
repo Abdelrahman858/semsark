@@ -5,13 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.jwt.JwtUtil;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.response_body.AuthenticationResponse;
 import project.semsark.model.response_body.RefreshTokenResponse;
 import project.semsark.model.entity.User;
 import project.semsark.service.CustomUserDetailsService;
+
+import static project.semsark.global_methods.GlobalMethods.getToken;
 
 @RestController
 
@@ -37,7 +39,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/token/refresh")
-    public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestHeader(value = "Authorization") String willExpireToken) {
-        return ResponseEntity.ok(jwtUtil.generateRefreshToken(willExpireToken));
+    public ResponseEntity<RefreshTokenResponse> refreshToken() {
+        return ResponseEntity.ok(jwtUtil.generateRefreshToken(getToken()));
     }
 }

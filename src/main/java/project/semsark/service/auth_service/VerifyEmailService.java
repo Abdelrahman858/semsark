@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import project.semsark.HelperMessage;
+import project.semsark.exception.HelperMessage;
 import project.semsark.jwt.JwtUtil;
 import project.semsark.model.entity.Emails;
 import project.semsark.model.entity.OTP;
@@ -22,6 +22,8 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Random;
+
+import static project.semsark.global_methods.GlobalMethods.generateOtp;
 
 @Service
 public class VerifyEmailService {
@@ -71,18 +73,6 @@ public class VerifyEmailService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_WRONG);
     }
 
-    String generateOtp() {
-        String numbers = "0123456789";
-
-        Random random_method = new Random();
-
-        StringBuilder otp = new StringBuilder();
-
-        for (int i = 0; i < 6; i++) {
-            otp.append(numbers.charAt(random_method.nextInt(numbers.length())));
-        }
-        return otp.toString();
-    }
 
     @Transactional
     public String checkOtpValid(String otp, String choice) {
