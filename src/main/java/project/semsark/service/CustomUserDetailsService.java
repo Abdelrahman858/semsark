@@ -12,18 +12,19 @@ import org.springframework.web.server.ResponseStatusException;
 import project.semsark.HelperMessage;
 import project.semsark.mapper.UserDetailsMapper;
 import project.semsark.mapper.UserUpdateMapper;
+import project.semsark.model.entity.Emails;
+import project.semsark.model.entity.Role;
+import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserSearchParameters;
 import project.semsark.model.request_body.UserUpdate;
-import project.semsark.model.entity.Role;
-import project.semsark.model.entity.User;
+import project.semsark.repository.EmailsRepository;
 import project.semsark.repository.UserRepository;
 import project.semsark.repository.specification.UserSpecifications;
 import project.semsark.service.auth_service.VerifyEmailService;
 import project.semsark.validation.UserDetailsValidator;
 
-import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     VerifyEmailService verifyEmailService;
+    @Autowired
+    EmailsRepository emailsRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -57,23 +60,36 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
     }
 
-    public User createUser(UserDetailsDto userDetailsDTO) throws MessagingException {
+    public User createUser(UserDetailsDto userDetailsDTO) {
+
+        Optional<Emails> emails = emailsRepository.findByEmail(userDetailsDTO.getEmail());
+        if (!userDetailsDTO.isSocial())
+            if (!emails.isPresent() || !emails.get().isVerified())
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_NOT_VERIFIED);
 
         User user = new User();
         userDetailsMapper.mapTo(userDetailsDTO, user);
 
+
         if (!userDetailsDTO.isSocial()) {
             userDetailsValidator.validate(userDetailsDTO.getEmail());
-            verifyEmailService.sendEmailVerification(userDetailsDTO.getEmail());
+            emailsRepository.delete(emails.get());
             userRepository.save(user);
             throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.EMAIL_CREATED);
         } else {
             Optional<User> user1 = userRepository.findByEmail(userDetailsDTO.getEmail());
-            if (user1.isPresent()) {
-                user.setId(user1.get().getId());
-                return user;
-            } else
-                return userRepository.save(user);
+            return user1.orElseGet(() -> userRepository.save(user));
+        }
+    }
+
+    public void validateEmail(String email) {
+        userDetailsValidator.validate(email);
+        if (!emailsRepository.findByEmail(email).isPresent()) {
+            Emails emails = Emails.builder()
+                    .email(email)
+                    .verified(false)
+                    .build();
+            emailsRepository.save(emails);
         }
     }
 
@@ -92,7 +108,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public User findUser(AuthenticationRequest authenticationRequest) {
-        if (authenticationRequest.getSocial())
+        if (Boolean.TRUE.equals(authenticationRequest.getSocial()))
             return userRepository.findByEmail(authenticationRequest.getEmail())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND));
 

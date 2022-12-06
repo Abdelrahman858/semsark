@@ -20,6 +20,7 @@ public class UserDetailsDto {
     private String email;
     private boolean social = false;
     private String img;
+    private String password;
 
 
 }

@@ -23,14 +23,12 @@ public class EmailSenderService {
 
         message.setFrom("cairooo119@gmail.com");
         message.setTo(toEmail);
-        String[] linkAndMessage = body.split(",");
-        message.setText(convertHtmlToString(linkAndMessage[0], linkAndMessage[1]), true);
+        message.setText(convertHtmlToString(body),true);
         message.setSubject(subject);
 
         mailSender.send(mimeMessage);
     }
-
-    public String convertHtmlToString(String link, String usedFor) {
+    public String convertHtmlToString(String otp) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -181,8 +179,7 @@ public class EmailSenderService {
                 "                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n" +
                 "                                        <tr>\n" +
                 "                                            <td align=\"center\" bgcolor=\"#ed4e53\" style=\"border-radius: 3px;\">\n" +
-                "                                                <a href=\"" + link + "\" style=\"font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #ed4e53; display: inline-block;\"\n" +
-                "                                                   target=\"_blank\">" + usedFor + "</a>\n" +
+                "                                                <h1>" + otp + "</h1>" +
                 "                                            </td>\n" +
                 "                                        </tr>\n" +
                 "                                    </table>\n" +
@@ -202,6 +199,5 @@ public class EmailSenderService {
                 "</body>\n" +
                 "</html>";
     }
-
 
 }

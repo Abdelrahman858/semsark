@@ -58,7 +58,7 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/createPassword", "/getAllCategory", "/verifyEmail/**", "/updatePassword", "/forgetPassword/**", "/checkOtp/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
+                .antMatchers("/email/**", "/getAllCategory",  "/updatePassword", "/forgetPassword/**", "/checkOtp/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
                 // to permit urls
 
                 .permitAll()

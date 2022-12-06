@@ -1,4 +1,4 @@
-package project.semsark.controller;
+package project.semsark.controller.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import project.semsark.model.request_body.UserUpdate;
 import project.semsark.model.entity.User;
 import project.semsark.service.CustomUserDetailsService;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -25,10 +24,14 @@ public class UserDetailsController {
 
 
     @PostMapping(name = "/createUser")
-    public AuthenticationResponse saveUser(@Valid @RequestBody UserDetailsDto userDetailsDto) throws MessagingException {
+    public AuthenticationResponse saveUser(@Valid @RequestBody UserDetailsDto userDetailsDto) {
         User user = customUserDetailsService.createUser(userDetailsDto);
         return new AuthenticationResponse(jwtUtil.generateToken(user));
 
+    }
+    @GetMapping(value = "/checkEmail/{email}")
+    void checkEmail(@PathVariable String email){
+        customUserDetailsService.validateEmail(email);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")

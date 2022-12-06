@@ -35,7 +35,7 @@ public class UserDetailsMapper {
         if (userDetailsDTO.getEmail() != null) {
             user.setEmail(userDetailsDTO.getEmail());
         }
-        if (userDetailsDTO.getProfileId() != null) {
+        if (userDetailsDTO.getProfileId() != 0) {
             user.setProfile(profileRepository.findById(userDetailsDTO.getProfileId()).get());
         }
         if (userDetailsDTO.isSocial()) {
@@ -44,28 +44,31 @@ public class UserDetailsMapper {
         if (userDetailsDTO.getPhone() != null) {
             user.setPhone(userDetailsDTO.getPhone());
         }
-        user.setPassword(bcryptEncoder.encode(generateCommonLangPassword()));
+        if(userDetailsDTO.getPassword()!=null){
+            user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
+        }
+        user.setVerify(true);
     }
 
-    public String generateCommonLangPassword() {
-        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
-        String lowerCaseLetters = RandomStringUtils.random(2, 97, 122, true, true);
-        String numbers = RandomStringUtils.randomNumeric(2);
-        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
-        String totalChars = RandomStringUtils.randomAlphanumeric(2);
-        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
-                .concat(numbers)
-                .concat(specialChar)
-                .concat(totalChars);
-        List<Character> pwdChars = combinedChars.chars()
-                .mapToObj(c -> (char) c)
-                .collect(Collectors.toList());
-        Collections.shuffle(pwdChars);
-        String password = pwdChars.stream()
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                .toString();
-        return password;
-    }
+//    public String generateCommonLangPassword() {
+//        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
+//        String lowerCaseLetters = RandomStringUtils.random(2, 97, 122, true, true);
+//        String numbers = RandomStringUtils.randomNumeric(2);
+//        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
+//        String totalChars = RandomStringUtils.randomAlphanumeric(2);
+//        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
+//                .concat(numbers)
+//                .concat(specialChar)
+//                .concat(totalChars);
+//        List<Character> pwdChars = combinedChars.chars()
+//                .mapToObj(c -> (char) c)
+//                .collect(Collectors.toList());
+//        Collections.shuffle(pwdChars);
+//        String password = pwdChars.stream()
+//                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+//                .toString();
+//        return password;
+//    }
 
     public UserDetailsDto mapTo(User user) {
         Profile profile = user.getProfile();

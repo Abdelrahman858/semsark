@@ -19,7 +19,11 @@ public class HelperMessage {
     public static final String USER_NOT_VERFIED = "Please verify your email Firstly!";
     public static final String USER_EXIST = "User already exist!";
     public static final String EMAIL_VERIFY_SUCCESS = "Email has been verified successfully";
-    public static final String EMAIL_CREATED = "Email created successfully, please check your email to verify your account";
+    public static final String EMAIL_ALREADY_VERIFIED = "Email already verified";
+    public static final String EMAIL_NOT_VERIFIED = "Email not verified!!";
+
+
+    public static final String EMAIL_CREATED = "Email created successfully";
     public static final String USER_UPGRADED = "User upgraded to admin successfully";
     public static final String USER_UN_UPGRADED = "Un upgraded to user successfully";
     public static final String PASSWORD_CONFIRMATION = "Password updated successfully";

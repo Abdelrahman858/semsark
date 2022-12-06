@@ -1,29 +1,30 @@
 package project.semsark.controller.verify_email_controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.semsark.model.response_body.AuthenticationResponse;
 import project.semsark.model.request_body.UpdatePasswordRequest;
 import project.semsark.service.auth_service.VerifyEmailService;
 
+import javax.mail.MessagingException;
+
 @RestController
 
-
+@RequestMapping("/email")
 public class VerifyEmailController {
     @Autowired
     VerifyEmailService verifyEmailService;
+
+    @PostMapping(value = "/sendOtp/{email}")
+    void sendOtp(@PathVariable String email) throws MessagingException {
+        verifyEmailService.sendEmailVerification(email);
+    }
 
     @PostMapping(value = "/verifyEmail/{otp}")
     public String verifyEmail(@PathVariable String otp) {
         return verifyEmailService.checkOtpValid(otp, "wait");
     }
 
-    @PostMapping(value = "/createPassword")
-    public AuthenticationResponse createPassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) {
-        return verifyEmailService.createPassword(updatePasswordRequest);
-    }
+
 
 }

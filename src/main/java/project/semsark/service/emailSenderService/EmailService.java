@@ -55,11 +55,9 @@ public class EmailService {
 
         fromEmail.setEmail("abdelrahmn.ahmed119@gmail.com");
 
-
-        String[] linkAndMessage = body.split(",");
         Email to = new Email();
         to.setEmail(toEmail);
-        Mail mail = new Mail(fromEmail, subject, to, new Content("text/html", convertHtmlToString(linkAndMessage[0], linkAndMessage[1])));
+        Mail mail = new Mail(fromEmail, subject, to, new Content("text/html", convertHtmlToString(body)));
 
 
         Personalization personalization = new Personalization();
@@ -70,7 +68,7 @@ public class EmailService {
         return mail;
     }
 
-    public String convertHtmlToString(String link, String usedFor) {
+    public String convertHtmlToString(String otp) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -221,8 +219,7 @@ public class EmailService {
                 "                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n" +
                 "                                        <tr>\n" +
                 "                                            <td align=\"center\" bgcolor=\"#ed4e53\" style=\"border-radius: 3px;\">\n" +
-                "                                                <a href=\"" + link + "\" style=\"font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #ed4e53; display: inline-block;\"\n" +
-                "                                                   target=\"_blank\">" + usedFor + "</a>\n" +
+                "                                                <h1>" + otp + "</h1>" +
                 "                                            </td>\n" +
                 "                                        </tr>\n" +
                 "                                    </table>\n" +
