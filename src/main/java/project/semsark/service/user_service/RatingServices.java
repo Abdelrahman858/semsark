@@ -1,4 +1,4 @@
-package project.semsark.service.userService;
+package project.semsark.service.user_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

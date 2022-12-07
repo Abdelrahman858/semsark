@@ -3,21 +3,16 @@ package project.semsark.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Setter
 @Getter
-@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-public class OrderDetails {
+public class Photos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
-
-    @OneToOne
-    Orders orders;
-
+    private Long id;
+    private String imgLink;
 }

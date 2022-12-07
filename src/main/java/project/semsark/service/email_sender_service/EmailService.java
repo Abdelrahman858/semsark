@@ -1,4 +1,4 @@
-package project.semsark.service.emailSenderService;
+package project.semsark.service.email_sender_service;
 
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;

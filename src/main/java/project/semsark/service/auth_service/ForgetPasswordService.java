@@ -16,12 +16,11 @@ import project.semsark.model.request_body.UpdatePasswordRequest;
 import project.semsark.repository.OTPRepository;
 import project.semsark.repository.UserRepository;
 import project.semsark.service.CustomUserDetailsService;
-import project.semsark.service.emailSenderService.EmailSenderService;
-import project.semsark.service.emailSenderService.EmailService;
+import project.semsark.service.email_sender_service.EmailSenderService;
+import project.semsark.service.email_sender_service.EmailService;
 
 import javax.mail.MessagingException;
 import java.util.Date;
-import java.util.Random;
 
 import static project.semsark.global_methods.GlobalMethods.generateOtp;
 
