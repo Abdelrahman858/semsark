@@ -10,6 +10,7 @@ import project.semsark.exception.HelperMessage;
 import project.semsark.jwt.JwtUtil;
 import project.semsark.model.entity.Emails;
 import project.semsark.model.entity.OTP;
+import project.semsark.model.entity.User;
 import project.semsark.model.enums.Using;
 import project.semsark.repository.EmailsRepository;
 import project.semsark.repository.OTPRepository;
@@ -81,10 +82,9 @@ public class VerifyEmailService {
                 otpRepository.delete(otp1);
                 return "Done";
             }
-            Emails emails = emailsRepository.findByEmail(otp1.getEmail()).get();
-            emails.setVerified(true);
-            emailsRepository.save(emails);
-            otpRepository.delete(otp1);
+            User user = userDetailsService.findUserByEmail(otp1.getEmail());
+            user.setVerify(true);
+            userRepository.save(user);
             return otp1.getEmail();
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.OTP_NOT_FOUND);

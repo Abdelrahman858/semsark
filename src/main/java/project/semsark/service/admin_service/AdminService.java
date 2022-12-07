@@ -57,7 +57,7 @@ public class AdminService {
     public void verifyUser(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) {
-            user.get().setVerify(true);
+            user.get().setVerifyID(true);
             userRepository.save(user.get());
         }else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.USER_NOT_FOUND);
@@ -66,7 +66,7 @@ public class AdminService {
     public void unVerifyUser(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) {
-            user.get().setVerify(false);
+            user.get().setVerifyID(false);
             userRepository.save(user.get());
         }else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.USER_NOT_FOUND);

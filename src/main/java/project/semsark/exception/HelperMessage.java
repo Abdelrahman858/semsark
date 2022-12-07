@@ -34,4 +34,5 @@ public class HelperMessage {
     public static final String OUT_OF_RANGE = "THE RATING IS OUT OF RANGE 1 TO 5";
     public static final String QUANTITY_ERROR = "The quantity shouldn't be zero";
 
+    public static final String BUILDING_NOT_FOUND = "Building not found!";
 }

@@ -27,6 +27,7 @@ public class User {
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
+    private boolean verifyID = false;
     private boolean verify = false;
     private boolean suspended = false;
     private String img;
