@@ -35,4 +35,5 @@ public class HelperMessage {
     public static final String QUANTITY_ERROR = "The quantity shouldn't be zero";
 
     public static final String BUILDING_NOT_FOUND = "Building not found!";
+    public static final String Favourite_NOT_FOUND = "Favourite item not found!";
 }

@@ -33,5 +33,7 @@ public class User {
     private String img;
     @OneToMany
     private List<Building> myAds = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Favourites> favourites = new ArrayList<>();
 
 }
