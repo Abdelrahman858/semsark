@@ -32,17 +32,28 @@ public class FavouriteService {
     public void addToFavourite(long id){
         User user = jwtUtil.getUserDataFromToken();
         Optional<Building> building =buildingRepository.findById(id);
-
         if(building.isPresent()){
-            List<Building>list=new ArrayList<>();
-            list.add(building.get());
+            Favourites ff=favouriteRepository.findByUserId(user.getId());
+            if(ff!=null) {
+                List<Building> list = ff.getBuildings();
+                if (!list.contains(building.get())){
+                    list.add(building.get());
+                    ff.setBuildings(list);
+                    favouriteRepository.save(ff);
+                    user.setFavourites(ff);
+                 }else
+                     throw new ResponseStatusException(HttpStatus.FOUND,HelperMessage.ITEM_ALREADY_EXIST);
+            }else {
+                List<Building> buildingList = new ArrayList<>();
+                buildingList.add(building.get());
 
-            Favourites fav=new Favourites();
-            fav.setBuildings(list);
-            fav.setUserId(user.getId());
+                Favourites fav = new Favourites();
+                fav.setUserId(user.getId());
+                fav.setBuildings(buildingList);
+                favouriteRepository.save(fav);
+                user.setFavourites(fav);
+            }
 
-            favouriteRepository.save(fav);
-            user.getFavourites().add(fav);
             userRepository.save(user);
         }else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.BUILDING_NOT_FOUND);
@@ -51,15 +62,20 @@ public class FavouriteService {
 
     public void deleteFavourite(long id){
         User user = jwtUtil.getUserDataFromToken();
-        Optional<Favourites> fav = favouriteRepository.findById(id);
-        if(fav.isPresent()) {
-            user.getFavourites().remove(fav.get());
-            favouriteRepository.deleteById(id);
+        Optional<Building> building =buildingRepository.findById(id);
+        if (building.isPresent()){
+            Favourites fav = favouriteRepository.findByUserId(user.getId());
+            if(fav.getBuildings().contains(building.get())) {
+                fav.getBuildings().remove(building.get());
+                favouriteRepository.save(fav);
+
+            }else
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.Favourite_NOT_FOUND);
         }else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.Favourite_NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.BUILDING_NOT_FOUND);
     }
     ////////////////////////////////////////////////////////////////
-    public List<Favourites> getMyFavourites(){
+    public Favourites getMyFavourites(){
         User user=jwtUtil.getUserDataFromToken();
         return user.getFavourites();
     }

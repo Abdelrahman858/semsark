@@ -58,5 +58,5 @@ public class UserController {
     }
 
     @GetMapping("/getMyFavourite")
-    List<Favourites> getMyFavourites(){return favouriteService.getMyFavourites();};
+    Favourites getMyFavourites(){return favouriteService.getMyFavourites();};
 }
