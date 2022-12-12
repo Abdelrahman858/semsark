@@ -47,10 +47,7 @@ public class UserController {
         favouriteService.deleteFavourite(id);
     }
     /////////////////////////////// GET ////////////////////////////////////////
-    @GetMapping("/getAllAds")
-    List<Building> getAllAds(){
-        return adService.getAllAds();
-    }
+
 
     @GetMapping("/getMyAds")
     List<Building> getMyAds(){
@@ -58,5 +55,5 @@ public class UserController {
     }
 
     @GetMapping("/getMyFavourite")
-    Favourites getMyFavourites(){return favouriteService.getMyFavourites();};
+    Favourites getMyFavourites(){return favouriteService.getMyFavourites();}
 }

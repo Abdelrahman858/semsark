@@ -17,6 +17,7 @@ import project.semsark.jwt.JwtAuthenticationEntryPoint;
 import project.semsark.service.CustomUserDetailsService;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +50,7 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "access-control-allow-credentials", "access-control-allow-headers", "access-control-allow-methods", "access-control-allow-origin"));
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setExposedHeaders(Arrays.asList("Authorization", "access-control-allow-credentials", "access-control-allow-headers", "access-control-allow-methods", "access-control-allow-origin"));
@@ -58,7 +59,7 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/email/**", "/getAllCategory",  "/updatePassword", "/forgetPassword/**", "/checkOtp/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
+                .antMatchers("/email/**", "/common/**",  "/updatePassword", "/forgetPassword/**", "/checkOtp/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
                 // to permit urls
 
                 .permitAll()
@@ -67,6 +68,5 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
                 and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().addFilterBefore(customJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).cors().configurationSource(request -> corsConfiguration);
-        ;
     }
 }

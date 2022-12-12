@@ -13,7 +13,6 @@ import project.semsark.repository.BuildingRepository;
 import project.semsark.repository.FavouriteRepository;
 import project.semsark.repository.UserRepository;
 
-import javax.swing.plaf.ButtonUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +62,7 @@ public class FavouriteService {
     public void deleteFavourite(long id){
         User user = jwtUtil.getUserDataFromToken();
         Optional<Building> building =buildingRepository.findById(id);
+
         if (building.isPresent()){
             Favourites fav = favouriteRepository.findByUserId(user.getId());
             if(fav.getBuildings().contains(building.get())) {
