@@ -31,11 +31,8 @@ public class UserUpdateMapper {
         if (userDetailsDTO.getImg() != null) {
             user.setImg(userDetailsDTO.getImg());
         }
-        if (userDetailsDTO.getNewEmail() != null) {
-            user.setEmail(userDetailsDTO.getNewEmail());
-        }
-        if (userDetailsDTO.getProfileId() != null) {
-            user.setProfile(profileRepository.getById(userDetailsDTO.getProfileId()));
+        if (userDetailsDTO.getEmail() != null) {
+            user.setEmail(userDetailsDTO.getEmail());
         }
         if (userDetailsDTO.getPhone() != null) {
             if (!Objects.equals(userDetailsDTO.getPhone(), "0"))

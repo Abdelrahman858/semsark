@@ -14,11 +14,10 @@ import javax.validation.constraints.Email;
 public class UserDetailsDto {
 
     private String username;
-    private Long profileId;
     private String phone;
     @Email
     private String email;
-    private boolean social = false;
+    private boolean social ;
     private String img;
     private String password;
 

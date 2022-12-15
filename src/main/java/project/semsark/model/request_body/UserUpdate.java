@@ -15,10 +15,8 @@ public class UserUpdate {
 
     private String username;
     private String password;
-    private Long profileId;
     private String phone;
     @Email
-    private String oldEmail;
-    private String newEmail;
+    private String email;
     private String img;
 }

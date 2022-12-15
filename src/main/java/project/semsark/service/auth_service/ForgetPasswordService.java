@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.exception.HelperMessage;
 import project.semsark.jwt.JwtUtil;
+import project.semsark.model.request_body.OtpRequest;
 import project.semsark.model.response_body.AuthenticationResponse;
 import project.semsark.model.entity.OTP;
 import project.semsark.model.entity.User;
@@ -69,9 +70,9 @@ public class ForgetPasswordService {
 
 
 
-    public void checkOtp(String otp, String choice) {
-        OTP otp1 = otpRepository.findByOtp(otp);
-        if (otp1 != null && otp1.getUsed().equals(Using.PASSWORD.name())) {
+    public void checkOtp(OtpRequest otpRequest,String choice) {
+        OTP otp1 = otpRepository.findByOtp(otpRequest.getOtp());
+        if (otp1 != null && otp1.getUsed().equals(Using.PASSWORD.name())&& otp1.getEmail().equals(otpRequest.getEmail())) {
             if (otp1.getExpiredDate().getTime() - System.currentTimeMillis() > 0) {
                 if (choice.equals("delete"))
                     otpRepository.delete(otp1);
@@ -87,7 +88,10 @@ public class ForgetPasswordService {
     public AuthenticationResponse updatePassword(UpdatePasswordRequest updatePasswordRequest) {
         User user = userDetailsService.findUserByEmail(updatePasswordRequest.getEmail());
         if (user != null) {
-            checkOtp(updatePasswordRequest.getOtp(), "delete");
+            OtpRequest otpRequest = new OtpRequest();
+            otpRequest.setOtp(updatePasswordRequest.getOtp());
+            otpRequest.setEmail(updatePasswordRequest.getEmail());
+            checkOtp(otpRequest, "delete");
             user.setPassword(bcryptEncoder.encode(updatePasswordRequest.getPassword()));
             userRepository.save(user);
             String token = jwtUtil.generateToken(user);

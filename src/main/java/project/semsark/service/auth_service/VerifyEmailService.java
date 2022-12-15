@@ -3,19 +3,16 @@ package project.semsark.service.auth_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.exception.HelperMessage;
-import project.semsark.jwt.JwtUtil;
 import project.semsark.model.entity.Emails;
 import project.semsark.model.entity.OTP;
-import project.semsark.model.entity.User;
 import project.semsark.model.enums.Using;
+import project.semsark.model.request_body.OtpRequest;
 import project.semsark.repository.EmailsRepository;
 import project.semsark.repository.OTPRepository;
 import project.semsark.repository.UserRepository;
-import project.semsark.service.CustomUserDetailsService;
 import project.semsark.service.email_sender_service.EmailSenderService;
 import project.semsark.service.email_sender_service.EmailService;
 
@@ -35,19 +32,13 @@ public class VerifyEmailService {
     UserRepository userRepository;
     @Autowired
     EmailService emailService;
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
     private int otpExpirationInMs;
     @Autowired
     private OTPRepository otpRepository;
 
     @Value("${otp.expirationDateInMs}")
-    public void setOtpExpirationInMs(int OtpExpirationInMs) {
-        this.otpExpirationInMs = OtpExpirationInMs;
+    public void setOtpExpirationInMs(int otpExpirationInMs) {
+        this.otpExpirationInMs = otpExpirationInMs;
     }
 
     public void sendEmailVerification(String email) throws MessagingException {
@@ -75,16 +66,13 @@ public class VerifyEmailService {
 
 
     @Transactional
-    public String checkOtpValid(String otp, String choice) {
-        OTP otp1 = otpRepository.findByOtp(otp);
-        if (otp1 != null && otp1.getUsed().equals(Using.EMAIL.name())) {
-            if (choice.equals("delete")) {
-                otpRepository.delete(otp1);
-                return "Done";
-            }
-            User user = userDetailsService.findUserByEmail(otp1.getEmail());
-            user.setVerify(true);
-            userRepository.save(user);
+    public String checkOtpValid(OtpRequest otpRequest) {
+        OTP otp1 = otpRepository.findByOtp(otpRequest.getOtp());
+        if (otp1 != null && otp1.getUsed().equals(Using.EMAIL.name()) && otp1.getEmail().equals(otpRequest.getEmail())) {
+            Emails emails = emailsRepository.findByEmail(otp1.getEmail()).get();
+            emails.setVerified(true);
+            emailsRepository.save(emails);
+            otpRepository.delete(otp1);
             return otp1.getEmail();
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.OTP_NOT_FOUND);

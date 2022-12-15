@@ -4,11 +4,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import project.semsark.model.entity.Profile;
+import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserSearchParameters;
-import project.semsark.model.entity.Profile;
-import project.semsark.model.entity.User;
 import project.semsark.repository.MainProfileRepository;
 
 import java.util.Collections;
@@ -35,46 +35,44 @@ public class UserDetailsMapper {
         if (userDetailsDTO.getEmail() != null) {
             user.setEmail(userDetailsDTO.getEmail());
         }
-        if (userDetailsDTO.getProfileId() != 0) {
-            user.setProfile(profileRepository.findById(userDetailsDTO.getProfileId()).get());
-        }
         if (userDetailsDTO.isSocial()) {
             user.setVerify(true);
         }
         if (userDetailsDTO.getPhone() != null) {
             user.setPhone(userDetailsDTO.getPhone());
         }
-        if(userDetailsDTO.getPassword()!=null){
+        if (userDetailsDTO.getPassword() != null) {
             user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
         }
+        if (userDetailsDTO.isSocial() && userDetailsDTO.getPassword() == null)
+            user.setPassword(bcryptEncoder.encode(generateCommonLangPassword()));
         user.setVerify(true);
     }
 
-//    public String generateCommonLangPassword() {
-//        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
-//        String lowerCaseLetters = RandomStringUtils.random(2, 97, 122, true, true);
-//        String numbers = RandomStringUtils.randomNumeric(2);
-//        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
-//        String totalChars = RandomStringUtils.randomAlphanumeric(2);
-//        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
-//                .concat(numbers)
-//                .concat(specialChar)
-//                .concat(totalChars);
-//        List<Character> pwdChars = combinedChars.chars()
-//                .mapToObj(c -> (char) c)
-//                .collect(Collectors.toList());
-//        Collections.shuffle(pwdChars);
-//        String password = pwdChars.stream()
-//                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-//                .toString();
-//        return password;
-//    }
+    public String generateCommonLangPassword() {
+        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
+        String lowerCaseLetters = RandomStringUtils.random(2, 97, 122, true, true);
+        String numbers = RandomStringUtils.randomNumeric(2);
+        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
+        String totalChars = RandomStringUtils.randomAlphanumeric(2);
+        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
+                .concat(numbers)
+                .concat(specialChar)
+                .concat(totalChars);
+        List<Character> pwdChars = combinedChars.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        Collections.shuffle(pwdChars);
+        return pwdChars.stream()
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
+    }
 
     public UserDetailsDto mapTo(User user) {
-        Profile profile = user.getProfile();
-        Long profileId = profile != null ? profile.getId() : null;
 
-        return UserDetailsDto.builder().username(user.getUsername()).profileId(profileId).build();
+        return UserDetailsDto.builder().username(user.getUsername())
+                .email(user.getEmail())
+                .build();
     }
 
     public UserSearchParameters mapTo(AuthenticationRequest authenticationRequest) {

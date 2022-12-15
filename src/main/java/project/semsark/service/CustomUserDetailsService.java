@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.exception.HelperMessage;
+import project.semsark.jwt.JwtUtil;
 import project.semsark.mapper.UserDetailsMapper;
 import project.semsark.mapper.UserUpdateMapper;
 import project.semsark.model.entity.Emails;
@@ -46,6 +47,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetailsValidator userDetailsValidator;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    JwtUtil jwtUtil;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -63,19 +67,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     public User createUser(UserDetailsDto userDetailsDTO) {
 
         Optional<Emails> emails = emailsRepository.findByEmail(userDetailsDTO.getEmail());
-        if (!userDetailsDTO.isSocial())
-            if (!emails.isPresent() || !emails.get().isVerified())
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_NOT_VERIFIED);
-
         User user = new User();
         userDetailsMapper.mapTo(userDetailsDTO, user);
 
-
         if (!userDetailsDTO.isSocial()) {
-            userDetailsValidator.validate(userDetailsDTO.getEmail());
-            emailsRepository.delete(emails.get());
-            userRepository.save(user);
-            throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.EMAIL_CREATED);
+            if (!emails.isPresent() || !emails.get().isVerified())
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_NOT_VERIFIED);
+            else{
+                userDetailsValidator.validate(userDetailsDTO.getEmail());
+                emailsRepository.delete(emails.get());
+                userRepository.save(user);
+                throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.EMAIL_CREATED);
+            }
         } else {
             Optional<User> user1 = userRepository.findByEmail(userDetailsDTO.getEmail());
             return user1.orElseGet(() -> userRepository.save(user));
@@ -94,10 +97,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetailsDto updateUserByEmail(UserUpdate userUpdate) {
-
-        User existUser = findUserByEmail(userUpdate.getOldEmail());
-        userUpdateMapper.mapTo(userUpdate, existUser);
-        User updatedUser = userRepository.save(existUser);
+        User user  = jwtUtil.getUserDataFromToken();
+        userUpdateMapper.mapTo(userUpdate, user);
+        User updatedUser = userRepository.save(user);
 
         return userDetailsMapper.mapTo(updatedUser);
     }
