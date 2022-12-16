@@ -12,6 +12,7 @@ import project.semsark.model.entity.User;
 import project.semsark.repository.BuildingRepository;
 import project.semsark.repository.FavouriteRepository;
 import project.semsark.repository.UserRepository;
+import project.semsark.validation.FavValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class FavouriteService {
+    @Autowired
+    FavValidator favValidator;
     @Autowired
     FavouriteRepository favouriteRepository;
     @Autowired
@@ -64,13 +67,14 @@ public class FavouriteService {
         Optional<Building> building =buildingRepository.findById(id);
 
         if (building.isPresent()){
+            favValidator.valid(id);
             Favourites fav = favouriteRepository.findByUserId(user.getId());
             if(fav.getBuildings().contains(building.get())) {
                 fav.getBuildings().remove(building.get());
                 favouriteRepository.save(fav);
 
             }else
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.Favourite_NOT_FOUND);
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.FAVOURITE_NOT_FOUND);
         }else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.BUILDING_NOT_FOUND);
     }

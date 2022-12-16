@@ -34,6 +34,10 @@ public class HelperMessage {
     public static final String OUT_OF_RANGE = "THE RATING IS OUT OF RANGE 1 TO 5";
     public static final String QUANTITY_ERROR = "The quantity shouldn't be zero";
 
-    public static final String BUILDING_NOT_FOUND = "Building not found!";
-    public static final String Favourite_NOT_FOUND = "Favourite item not found!";
+    public static final String DONT_HAVE_BUILDING = "Building not found!";
+    public static final String BUILDING_NOT_FOUND = "You don't have this building!";
+    public static final String FAV_NOT_FOUND = "You don't add this building to favourite!";
+
+
+    public static final String FAVOURITE_NOT_FOUND = "Favourite item not found!";
 }
