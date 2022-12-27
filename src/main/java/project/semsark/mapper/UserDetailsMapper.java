@@ -4,8 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import project.semsark.model.entity.Profile;
 import project.semsark.model.entity.User;
+import project.semsark.model.enums.Profiles;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserSearchParameters;
@@ -47,6 +47,7 @@ public class UserDetailsMapper {
         if (userDetailsDTO.isSocial() && userDetailsDTO.getPassword() == null)
             user.setPassword(bcryptEncoder.encode(generateCommonLangPassword()));
         user.setVerify(true);
+        user.setProfile(profileRepository.findProfileByName(Profiles.User.name()));
     }
 
     public String generateCommonLangPassword() {
