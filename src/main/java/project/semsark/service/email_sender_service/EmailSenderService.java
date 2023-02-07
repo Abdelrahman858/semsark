@@ -34,7 +34,7 @@ public class EmailSenderService {
                 "<head>\n" +
                 "    <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css\" rel=\"stylesheet\">\n" +
                 "    <meta charset=\"UTF-8\">\n" +
-                "    <title>Slices</title>\n" +
+                "    <title>SEMSARK</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "\n" +
@@ -139,7 +139,7 @@ public class EmailSenderService {
                 "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n" +
                 "    <!-- LOGO -->\n" +
                 "    <tr>\n" +
-                "        <td align=\"center\" bgcolor=\"#ed4e53\">\n" +
+                "        <td align=\"center\" bgcolor=\"#0091FF\">\n" +
                 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px;\" width=\"100%\">\n" +
                 "                <tr>\n" +
                 "                    <td align=\"center\" style=\"padding: 40px 10px 40px 10px;\" valign=\"top\"></td>\n" +
@@ -148,14 +148,15 @@ public class EmailSenderService {
                 "        </td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td align=\"center\" bgcolor=\"#ed4e53\" style=\"padding: 0px 10px 0px 10px;\">\n" +
+                "        <td align=\"center\" bgcolor=\"#0091FF\" style=\"padding: 0px 10px 0px 10px;\">\n" +
                 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px;\" width=\"100%\">\n" +
                 "                <tr>\n" +
-                "                    <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;\"\n" +
+                "                    <td align=\"center\" bgcolor=\"#ffffff\"\n" +
+                "                        style=\"padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;\"\n" +
                 "                        valign=\"top\">\n" +
                 "                        <h1 style=\"font-size: 48px; font-weight: 400; margin: 2;\">Welcome!</h1> <img\n" +
-                "                            height=\"120\" src=\"http://androthemes.com/themes/react/slices/assets/img/logo.png\"\n" +
-                "                            style=\"display: block; border: 0px;\" width=\"125\"/>\n" +
+                "                            height=\"180\" src=\"https://firebasestorage.googleapis.com/v0/b/semsark-529c0.appspot.com/o/logo2.png?alt=media&token=ae83efe4-e560-46b6-8357-8254662267a8\"\n" +
+                "                            style=\"display: block; border: 0px;\" width=\"250\"/>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
                 "            </table>\n" +
@@ -168,7 +169,9 @@ public class EmailSenderService {
                 "                    <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                        style=\"padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;\">\n" +
                 "                        <p style=\"margin: 0;\">We're excited to have you get started. First, you need to confirm your\n" +
-                "                            account. Just press the button below.</p>\n" +
+                "                            account. Just copy the verification code below.</p>\n" +
+                "                        <br><br/>\n" +
+                "                        <p style=\"margin: 0;\">قم بنسخ كود التحقق الموجود بالاسفل</p>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
                 "                <tr>\n" +
@@ -178,8 +181,10 @@ public class EmailSenderService {
                 "                                <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 20px 30px 60px 30px;\">\n" +
                 "                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n" +
                 "                                        <tr>\n" +
-                "                                            <td align=\"center\" bgcolor=\"#ed4e53\" style=\"border-radius: 3px;\">\n" +
-                "                                                <h1>" + otp + "</h1>" +
+                "                                            <td align=\"center\" bgcolor=\"#0091FF\" style=\"border-radius: 3px;\">\n" +
+                "                                                <p\n" +
+                "                                                   style=\"font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #0091FF; display: inline-block;\"\n" +
+                "                                                   target=\"_blank\">"+otp+"</p>\n" +
                 "                                            </td>\n" +
                 "                                        </tr>\n" +
                 "                                    </table>\n" +
