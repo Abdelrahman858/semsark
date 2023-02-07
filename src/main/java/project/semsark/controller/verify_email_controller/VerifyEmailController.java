@@ -21,7 +21,7 @@ public class VerifyEmailController {
         verifyEmailService.sendEmailVerification(email);
     }
 
-    @PostMapping(value = "/verifyEmail}")
+    @PostMapping(value = "/verifyEmail")
     public String verifyEmail(@RequestBody OtpRequest otpRequest) {
         return verifyEmailService.checkOtpValid(otpRequest);
     }
