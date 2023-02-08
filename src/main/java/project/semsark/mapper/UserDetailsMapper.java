@@ -41,6 +41,9 @@ public class UserDetailsMapper {
         if (userDetailsDTO.getPhone() != null) {
             user.setPhone(userDetailsDTO.getPhone());
         }
+        if (userDetailsDTO.getGender() != null) {
+            user.setGender(userDetailsDTO.getGender());
+        }
         if (userDetailsDTO.getPassword() != null) {
             user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
         }
