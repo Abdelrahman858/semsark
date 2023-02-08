@@ -76,8 +76,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             else{
                 userDetailsValidator.validate(userDetailsDTO.getEmail());
                 emailsRepository.delete(emails.get());
-                userRepository.save(user);
-                throw new ResponseStatusException(HttpStatus.CREATED, HelperMessage.EMAIL_CREATED);
+                return userRepository.save(user);
             }
         } else {
             Optional<User> user1 = userRepository.findByEmail(userDetailsDTO.getEmail());
