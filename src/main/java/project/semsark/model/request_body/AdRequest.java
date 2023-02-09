@@ -18,6 +18,8 @@ public class AdRequest {
     private String address;
     private String des;
     private String apartmentDetails;
+    private String city;
+    private String gov;
     private Double price;
     private Double lang;
     private Double lat;

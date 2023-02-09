@@ -3,8 +3,10 @@ package project.semsark.controller.user_controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import project.semsark.jwt.JwtUtil;
 import project.semsark.model.entity.Building;
 import project.semsark.model.entity.Favourites;
+import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AdRequest;
 import project.semsark.service.user_service.AdService;
 import project.semsark.service.user_service.FavouriteService;
@@ -19,6 +21,8 @@ public class UserController {
     private AdService adService;
     @Autowired
     private FavouriteService favouriteService;
+    @Autowired
+    JwtUtil jwtUtil;
 
     ////////////////////////////// ADD //////////////////////////////////////
     @PostMapping("/createAd")
@@ -52,6 +56,10 @@ public class UserController {
     @GetMapping("/getMyAds")
     List<Building> getMyAds(){
         return adService.getMyAds();
+    }
+    @GetMapping("/getUser")
+    User getUser(){
+        return jwtUtil.getUserDataFromToken();
     }
 
     @GetMapping("/getMyFavourite")

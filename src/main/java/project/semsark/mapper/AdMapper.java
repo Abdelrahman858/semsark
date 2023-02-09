@@ -22,6 +22,12 @@ public class AdMapper {
         if (adRequest.getCategory() != null) {
             building.setCategory(adRequest.getCategory());
         }
+        if (adRequest.getCity() != null) {
+            building.setCity(adRequest.getCity());
+        }
+        if (adRequest.getGov() != null) {
+            building.setGov(adRequest.getGov());
+        }
         if (adRequest.getDes() != null) {
             building.setDes(adRequest.getDes());
         }

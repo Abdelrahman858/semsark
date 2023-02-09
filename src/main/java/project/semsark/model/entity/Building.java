@@ -1,7 +1,6 @@
 package project.semsark.model.entity;
 
 import lombok.*;
-import project.semsark.model.enums.TypesOfBuilding;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,8 +26,9 @@ public class Building {
     private String address;
     private String  des;
     private String apartmentDetails;
+    private String city;
+    private String gov;
     private String  types;
-
     private Double price;
 
     private Double lang;
