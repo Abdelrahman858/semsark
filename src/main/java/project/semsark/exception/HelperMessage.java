@@ -28,6 +28,10 @@ public class HelperMessage {
     public static final String USER_UN_UPGRADED = "Un upgraded to user successfully";
     public static final String PASSWORD_CONFIRMATION = "Password updated successfully";
     public static final String EMAIL_EXIST = "Email already exist!";
+    public static final String EMAIL_IMP = "Please enter email!";
+    public static final String PASSWORD_IMP = "Please enter Password!";
+
+
     public static final String PROFILE_NOT_FOUND = "Profile not found!";
     public static final String OTP_EXPIRE = "OTP has expired";
     public static final String OTP_NOT_FOUND = "OTP not found";

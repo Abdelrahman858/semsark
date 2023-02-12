@@ -16,6 +16,7 @@ public class UserUpdate {
     private String username;
     private String password;
     private String phone;
+    private String gender;
     @Email
     private String email;
     private String img;

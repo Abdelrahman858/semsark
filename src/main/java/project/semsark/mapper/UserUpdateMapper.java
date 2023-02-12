@@ -22,21 +22,24 @@ public class UserUpdateMapper {
 
     public void mapTo(UserUpdate userDetailsDTO, User user) {
 
-        if (userDetailsDTO.getUsername() != null) {
+        if (valid(userDetailsDTO.getUsername()) ) {
             user.setUsername(userDetailsDTO.getUsername());
         }
-        if (userDetailsDTO.getPassword() != null) {
+        if (valid(userDetailsDTO.getPassword())) {
             user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
         }
-        if (userDetailsDTO.getImg() != null) {
+        if (valid(userDetailsDTO.getImg())) {
             user.setImg(userDetailsDTO.getImg());
         }
-        if (userDetailsDTO.getEmail() != null) {
-            user.setEmail(userDetailsDTO.getEmail());
+        if (valid(userDetailsDTO.getGender())) {
+            user.setGender(userDetailsDTO.getGender());
         }
-        if (userDetailsDTO.getPhone() != null) {
+        if (valid(userDetailsDTO.getPhone())) {
             if (!Objects.equals(userDetailsDTO.getPhone(), "0"))
                 user.setPhone(userDetailsDTO.getPhone());
         }
+    }
+    boolean valid(String obj){
+        return (obj.equals(""));
     }
 }

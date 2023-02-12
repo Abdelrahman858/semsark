@@ -2,8 +2,11 @@ package project.semsark.mapper;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+import project.semsark.exception.HelperMessage;
 import project.semsark.model.entity.User;
 import project.semsark.model.enums.Profiles;
 import project.semsark.model.request_body.AuthenticationRequest;
@@ -25,32 +28,39 @@ public class UserDetailsMapper {
 
     public void mapTo(UserDetailsDto userDetailsDTO, User user) {
 
-        if (userDetailsDTO.getUsername() != null) {
+        if (valid(userDetailsDTO.getUsername())) {
             user.setUsername(userDetailsDTO.getUsername());
         }
-        if (userDetailsDTO.getImg() != null) {
+        if (valid(userDetailsDTO.getImg())) {
             user.setImg(userDetailsDTO.getImg());
         }
 
-        if (userDetailsDTO.getEmail() != null) {
+        if (valid(userDetailsDTO.getEmail())) {
             user.setEmail(userDetailsDTO.getEmail());
-        }
+        }else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_IMP);
+
         if (userDetailsDTO.isSocial()) {
             user.setVerify(true);
         }
-        if (userDetailsDTO.getPhone() != null) {
+        if (valid(userDetailsDTO.getPhone())) {
             user.setPhone(userDetailsDTO.getPhone());
         }
-        if (userDetailsDTO.getGender() != null) {
+        if (valid(userDetailsDTO.getGender())) {
             user.setGender(userDetailsDTO.getGender());
         }
-        if (userDetailsDTO.getPassword() != null) {
+        if (valid(userDetailsDTO.getPassword())) {
             user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
-        }
+        }else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.PASSWORD_IMP);
+
         if (userDetailsDTO.isSocial() && userDetailsDTO.getPassword() == null)
             user.setPassword(bcryptEncoder.encode(generateCommonLangPassword()));
         user.setVerify(true);
         user.setProfile(profileRepository.findProfileByName(Profiles.User.name()));
+    }
+    boolean valid(String obj){
+        return (obj.equals(""));
     }
 
     public String generateCommonLangPassword() {

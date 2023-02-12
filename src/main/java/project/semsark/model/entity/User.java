@@ -35,6 +35,6 @@ public class User {
     @OneToMany
     private List<Building> myAds = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
-    private Favourites favourites ;
+    private Favourites favourites = new Favourites();
 
 }
