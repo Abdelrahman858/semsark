@@ -40,6 +40,6 @@ public class UserUpdateMapper {
         }
     }
     boolean valid(String obj){
-        return (obj.equals(""));
+        return (!obj.equals(""));
     }
 }

@@ -60,7 +60,7 @@ public class UserDetailsMapper {
         user.setProfile(profileRepository.findProfileByName(Profiles.User.name()));
     }
     boolean valid(String obj){
-        return (obj.equals(""));
+        return (!obj.equals(""));
     }
 
     public String generateCommonLangPassword() {

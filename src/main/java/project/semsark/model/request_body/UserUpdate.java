@@ -3,7 +3,6 @@ package project.semsark.model.request_body;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import javax.validation.constraints.Email;
 
 @Setter
 @Getter
@@ -17,7 +16,5 @@ public class UserUpdate {
     private String password;
     private String phone;
     private String gender;
-    @Email
-    private String email;
     private String img;
 }
