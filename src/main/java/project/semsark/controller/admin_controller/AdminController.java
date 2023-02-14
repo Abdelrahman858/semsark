@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import project.semsark.jwt.JwtUtil;
 import project.semsark.model.entity.User;
 import project.semsark.model.request_body.EmailRequest;
-import project.semsark.model.request_body.UserDetailsDto;
+import project.semsark.model.response_body.UserResponse;
 import project.semsark.service.admin_service.AdminService;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class AdminController {
 
     ///////////////////////////////////////////////////////////
     @GetMapping("/getAllUsers")
-    List<UserDetailsDto> getAllUsers() {
+    List<UserResponse> getAllUsers() {
         return adminService.getAllUsers();
     }
 

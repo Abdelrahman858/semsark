@@ -9,6 +9,7 @@ import project.semsark.model.response_body.AuthenticationResponse;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserUpdate;
 import project.semsark.model.entity.User;
+import project.semsark.model.response_body.UserResponse;
 import project.semsark.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
@@ -37,7 +38,7 @@ public class UserDetailsController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 
     @PatchMapping(value = "/updateUser")
-    public ResponseEntity<UserDetailsDto> updateUser(@Valid @RequestBody UserUpdate userDetailsDto) {
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserUpdate userDetailsDto) {
         return ResponseEntity.ok(customUserDetailsService.updateUserByEmail(userDetailsDto));
     }
 }

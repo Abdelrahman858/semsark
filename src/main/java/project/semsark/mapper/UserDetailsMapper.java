@@ -12,6 +12,7 @@ import project.semsark.model.enums.Profiles;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserSearchParameters;
+import project.semsark.model.response_body.UserResponse;
 import project.semsark.repository.MainProfileRepository;
 
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class UserDetailsMapper {
             user.setPassword(bcryptEncoder.encode(generateCommonLangPassword()));
         user.setVerify(true);
         user.setProfile(profileRepository.findProfileByName(Profiles.User.name()));
+
     }
     boolean valid(String obj){
         return (!obj.equals(""));
@@ -82,10 +84,14 @@ public class UserDetailsMapper {
                 .toString();
     }
 
-    public UserDetailsDto mapTo(User user) {
-
-        return UserDetailsDto.builder().username(user.getUsername())
+    public UserResponse mapTo(User user){
+        return UserResponse.builder()
                 .email(user.getEmail())
+                .myAds(user.getMyAds())
+                .img(user.getImg())
+                .gender(user.getGender())
+                .phone(user.getPhone())
+                .username(user.getUsername())
                 .build();
     }
 
@@ -94,5 +100,6 @@ public class UserDetailsMapper {
         return UserSearchParameters.builder()
                 .email(authenticationRequest.getEmail()).password(authenticationRequest.getPassword()).build();
     }
+
 
 }

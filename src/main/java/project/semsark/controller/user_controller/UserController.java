@@ -8,6 +8,7 @@ import project.semsark.model.entity.Building;
 import project.semsark.model.entity.Favourites;
 import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AdRequest;
+import project.semsark.model.response_body.AdResponse;
 import project.semsark.service.user_service.AdService;
 import project.semsark.service.user_service.FavouriteService;
 
@@ -26,42 +27,51 @@ public class UserController {
 
     ////////////////////////////// ADD //////////////////////////////////////
     @PostMapping("/createAd")
-    void createAd(@RequestBody AdRequest adRequest){
+    void createAd(@RequestBody AdRequest adRequest) {
         adService.createAd(adRequest);
     }
 
     @PostMapping("/addFavourite/{id}")
-    void addToFavourite(@PathVariable long id){
+    void addToFavourite(@PathVariable long id) {
         favouriteService.addToFavourite(id);
     }
+
     /////////////////////////////// UPDATE ////////////////////////////////////////
     @PatchMapping("/updateAd/{id}")
-    void updateAd(@RequestBody AdRequest adRequest,@PathVariable long id){
-        adService.updateAd(adRequest,id);
+    void updateAd(@RequestBody AdRequest adRequest, @PathVariable long id) {
+        adService.updateAd(adRequest, id);
     }
 
     ////////////////////////////////// DELETE ///////////////////////////////////////////
     @DeleteMapping("/deleteAd/{id}")
-    void deleteAd(@PathVariable long id){
+    void deleteAd(@PathVariable long id) {
         adService.deleteAd(id);
     }
 
     @DeleteMapping("/deleteFavourite/{id}")
-    void deleteFavourite(@PathVariable long id){
+    void deleteFavourite(@PathVariable long id) {
         favouriteService.deleteFavourite(id);
     }
     /////////////////////////////// GET ////////////////////////////////////////
 
 
     @GetMapping("/getMyAds")
-    List<Building> getMyAds(){
+    List<Building> getMyAds() {
         return adService.getMyAds();
     }
+
+    @GetMapping("/{id}")
+    AdResponse getAd(@PathVariable long id) {
+        return adService.getAd(id);
+    }
+
     @GetMapping("/getUser")
-    User getUser(){
+    User getUser() {
         return jwtUtil.getUserDataFromToken();
     }
 
     @GetMapping("/getMyFavourite")
-    Favourites getMyFavourites(){return favouriteService.getMyFavourites();}
+    Favourites getMyFavourites() {
+        return favouriteService.getMyFavourites();
+    }
 }

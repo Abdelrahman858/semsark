@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.exception.HelperMessage;
 import project.semsark.mapper.UserDetailsMapper;
-import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.entity.Profile;
 import project.semsark.model.entity.User;
 import project.semsark.model.enums.ProfileName;
+import project.semsark.model.response_body.UserResponse;
 import project.semsark.repository.MainProfileRepository;
 import project.semsark.repository.UserRepository;
 
@@ -73,8 +73,8 @@ public class AdminService {
 
     }
     ////////////////////////////////////////////////////////////////////
-   public List<UserDetailsDto>getAllUsers(){
-        List<UserDetailsDto>list=new ArrayList<>();
+   public List<UserResponse>getAllUsers(){
+        List<UserResponse>list=new ArrayList<>();
 
        Profile profile=profileRepository.findProfileByName(ProfileName.User.name());
 
