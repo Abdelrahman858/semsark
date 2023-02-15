@@ -15,6 +15,7 @@ import project.semsark.repository.UserRepository;
 import project.semsark.validation.FavValidator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,5 +83,16 @@ public class FavouriteService {
     public Favourites getMyFavourites(){
         User user=jwtUtil.getUserDataFromToken();
         return user.getFavourites();
+    }
+
+    public boolean getMyFavouriteById(long id){
+        User user=jwtUtil.getUserDataFromToken();
+        Optional<Building> building = buildingRepository.findById(id);
+        if(building.isPresent()) {
+            boolean flag=user.getFavourites().getBuildings().contains(building.get());
+
+            return flag;
+        }
+        return false;
     }
 }

@@ -35,7 +35,6 @@ public class UserController {
     void addToFavourite(@PathVariable long id) {
         favouriteService.addToFavourite(id);
     }
-
     /////////////////////////////// UPDATE ////////////////////////////////////////
     @PatchMapping("/updateAd/{id}")
     void updateAd(@RequestBody AdRequest adRequest, @PathVariable long id) {
@@ -73,5 +72,10 @@ public class UserController {
     @GetMapping("/getMyFavourite")
     Favourites getMyFavourites() {
         return favouriteService.getMyFavourites();
+    }
+
+    @GetMapping("/getMyFavouriteById/{id}")
+    boolean getMyFavouriteById(@PathVariable long id) {
+        return favouriteService.getMyFavouriteById(id);
     }
 }
