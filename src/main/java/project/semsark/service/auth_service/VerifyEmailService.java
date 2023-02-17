@@ -45,7 +45,7 @@ public class VerifyEmailService {
         if (userRepository.findByEmail(email).isPresent())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_ALREADY_VERIFIED);
         else if (emailsRepository.findByEmail(email).isPresent()) {
-            OTP otp = otpRepository.findByEmail(email);
+            OTP otp = otpRepository.findByEmailAndAndUsed(email,Using.EMAIL.name());
             if (otp == null)
                 otp = new OTP();
             otp.setOtp(generateOtp());

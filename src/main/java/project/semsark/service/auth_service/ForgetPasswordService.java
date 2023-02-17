@@ -50,7 +50,7 @@ public class ForgetPasswordService {
     }
     public void forgetPassword(String email) throws MessagingException {
         if(userRepository.findByEmail(email).isPresent()){
-            OTP otp = otpRepository.findByEmail(email);
+            OTP otp = otpRepository.findByEmailAndAndUsed(email,Using.PASSWORD.name());
             if (otp == null)
                 otp = new OTP();
             otp.setOtp(generateOtp());
