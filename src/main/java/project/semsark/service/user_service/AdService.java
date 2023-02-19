@@ -10,6 +10,7 @@ import project.semsark.mapper.AdMapper;
 import project.semsark.model.entity.Building;
 import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AdRequest;
+import project.semsark.model.response_body.AdResponse;
 import project.semsark.repository.BuildingRepository;
 import project.semsark.repository.UserRepository;
 import project.semsark.validation.AdValidator;
@@ -73,7 +74,7 @@ public class AdService {
     /////////////////////////////////////////////////////////////////
 
     public List<Building> getAllAds() {
-        return new ArrayList<>(buildingRepository.findAll());
+       return buildingRepository.findAll();
     }
 
     public List<Building> getMyAds() {
@@ -81,6 +82,13 @@ public class AdService {
         List<Building> ads = userRepository.findByEmail(user.getEmail()).get().getMyAds();
 
         return new ArrayList<>(ads);
+    }
+    public AdResponse getAd(Long id){
+       Optional<Building> building = buildingRepository.findById(id);
+       if(building.isPresent())
+           return adMapper.mapTo(building.get());
+       else
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.DONT_HAVE_BUILDING);
     }
 
 }

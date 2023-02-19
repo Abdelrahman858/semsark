@@ -83,4 +83,10 @@ public class FavouriteService {
         User user=jwtUtil.getUserDataFromToken();
         return user.getFavourites();
     }
+
+    public boolean getMyFavouriteById(long id){
+        User user=jwtUtil.getUserDataFromToken();
+        Optional<Building> building = buildingRepository.findById(id);
+        return building.filter(value -> user.getFavourites().getBuildings().contains(value)).isPresent();
+    }
 }

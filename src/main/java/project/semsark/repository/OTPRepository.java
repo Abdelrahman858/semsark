@@ -8,5 +8,5 @@ import project.semsark.model.entity.OTP;
 public interface OTPRepository extends JpaRepository<OTP, Long> {
     public OTP findByOtp(String otp);
 
-    public OTP findByEmail(String email);
+    public OTP findByEmailAndAndUsed(String email,String used);
 }

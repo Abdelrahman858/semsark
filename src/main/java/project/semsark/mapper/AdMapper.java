@@ -5,12 +5,18 @@ import org.springframework.stereotype.Component;
 import project.semsark.model.entity.Building;
 import project.semsark.model.entity.Photos;
 import project.semsark.model.request_body.AdRequest;
+import project.semsark.model.response_body.AdResponse;
 import project.semsark.repository.PhotosRepository;
+import project.semsark.repository.UserRepository;
 
 @Component
 public class AdMapper {
     @Autowired
     PhotosRepository photosRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserDetailsMapper userDetailsMapper;
     public void mapTo(AdRequest adRequest, Building building) {
 
         if (adRequest.getAddress() != null) {
@@ -80,6 +86,33 @@ public class AdMapper {
             building.getPhotosList().add(photo);
         }
 
+    }
+    public AdResponse mapTo(Building building ){
+
+        return AdResponse.builder()
+                .id(building.getId())
+                .user(userDetailsMapper.mapTo(userRepository.findById(building.getUserId()).get()))
+                .photosList(building.getPhotosList())
+                .signalPower(building.getSignalPower())
+                .title(building.getTitle())
+                .category(building.getCategory())
+                .address(building.getAddress())
+                .des(building.getDes())
+                .apartmentDetails(building.getApartmentDetails())
+                .city(building.getCity())
+                .gov(building.getGov())
+                .types(building.getTypes())
+                .price(building.getPrice())
+                .lang(building.getLang())
+                .lat(building.getLat())
+                .area(building.getArea())
+                .numOfRoom(building.getNumOfRoom())
+                .numOfBathroom(building.getNumOfBathroom())
+                .numOfHalls(building.getNumOfHalls())
+                .level(building.getLevel())
+                .finished(building.isFinished())
+                .single(building.isSingle())
+                .build();
     }
 
 

@@ -14,13 +14,17 @@ import project.semsark.jwt.JwtUtil;
 import project.semsark.mapper.UserDetailsMapper;
 import project.semsark.mapper.UserUpdateMapper;
 import project.semsark.model.entity.Emails;
+import project.semsark.model.entity.OTP;
 import project.semsark.model.entity.Role;
 import project.semsark.model.entity.User;
+import project.semsark.model.enums.Using;
 import project.semsark.model.request_body.AuthenticationRequest;
 import project.semsark.model.request_body.UserDetailsDto;
 import project.semsark.model.request_body.UserSearchParameters;
 import project.semsark.model.request_body.UserUpdate;
+import project.semsark.model.response_body.UserResponse;
 import project.semsark.repository.EmailsRepository;
+import project.semsark.repository.OTPRepository;
 import project.semsark.repository.UserRepository;
 import project.semsark.repository.specification.UserSpecifications;
 import project.semsark.service.auth_service.VerifyEmailService;
@@ -48,6 +52,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    private OTPRepository otpRepository;
+    @Autowired
     JwtUtil jwtUtil;
 
 
@@ -70,6 +76,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = new User();
         userDetailsMapper.mapTo(userDetailsDTO, user);
 
+
         if (!userDetailsDTO.isSocial()) {
             if (!emails.isPresent() || !emails.get().isVerified())
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.EMAIL_NOT_VERIFIED);
@@ -80,6 +87,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             }
         } else {
             Optional<User> user1 = userRepository.findByEmail(userDetailsDTO.getEmail());
+            OTP otp = otpRepository.findByEmailAndAndUsed(userDetailsDTO.getEmail(), Using.EMAIL.name());
+            emails.ifPresent(value -> emailsRepository.delete(value));
+            if(otp != null)
+                otpRepository.delete(otp);
             return user1.orElseGet(() -> userRepository.save(user));
         }
     }
@@ -95,7 +106,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    public UserDetailsDto updateUserByEmail(UserUpdate userUpdate) {
+    public UserResponse updateUserByEmail(UserUpdate userUpdate) {
         User user  = jwtUtil.getUserDataFromToken();
         userUpdateMapper.mapTo(userUpdate, user);
         User updatedUser = userRepository.save(user);
