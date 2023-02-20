@@ -3,6 +3,7 @@ package project.semsark.model.request_body;
 import lombok.*;
 import project.semsark.model.enums.TypesOfBuilding;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter

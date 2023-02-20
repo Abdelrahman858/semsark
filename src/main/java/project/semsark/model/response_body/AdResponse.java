@@ -3,7 +3,9 @@ package project.semsark.model.response_body;
 import lombok.*;
 import project.semsark.model.entity.Photos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -26,6 +28,8 @@ public class AdResponse {
     private String gov;
     private String  types;
     private Double price;
+    private long views;
+    private LocalDate date;
 
     private Double lang;
     private Double lat;

@@ -84,9 +84,11 @@ public class FavouriteService {
         return user.getFavourites();
     }
 
-    public boolean getMyFavouriteById(long id){
+    public void getMyFavouriteById(long id){
         User user=jwtUtil.getUserDataFromToken();
         Optional<Building> building = buildingRepository.findById(id);
-        return building.filter(value -> user.getFavourites().getBuildings().contains(value)).isPresent();
+        if(!(building.filter(value -> user.getFavourites().getBuildings().contains(value)).isPresent())){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.BUILDING_NOT_FOUND);
+        }
     }
 }

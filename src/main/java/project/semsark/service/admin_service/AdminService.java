@@ -84,4 +84,17 @@ public class AdminService {
         return list;
     }
 
+    public List<UserResponse>getPendingUsers(){
+        List<UserResponse>list=new ArrayList<>();
+
+        Profile profile=profileRepository.findProfileByName(ProfileName.User.name());
+
+        for(User user:userRepository.findByProfile(profile)) {
+            if(!(user.isVerifyID()))
+                 list.add(mapper.mapTo(user));
+        }
+
+        return list;
+    }
+
 }

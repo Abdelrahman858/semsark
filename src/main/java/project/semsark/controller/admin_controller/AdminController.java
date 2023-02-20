@@ -53,6 +53,11 @@ public class AdminController {
         return adminService.getAllUsers();
     }
 
+    @GetMapping("/getAllPendingUsers")
+    List<UserResponse> getAllPendingUsers() {
+        return adminService.getPendingUsers();
+    }
+
     @GetMapping("/test")
     User getTokenParam() {
         return jwtUtil.getUserDataFromToken();

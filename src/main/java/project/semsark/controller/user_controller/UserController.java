@@ -41,6 +41,11 @@ public class UserController {
         adService.updateAd(adRequest, id);
     }
 
+    @PatchMapping("/updateRate/{ownerEmail}/{rate}")
+    void rateUser(@PathVariable String ownerEmail,@PathVariable Double rate) {
+        adService.rateUser(ownerEmail,rate);
+    }
+
     ////////////////////////////////// DELETE ///////////////////////////////////////////
     @DeleteMapping("/deleteAd/{id}")
     void deleteAd(@PathVariable long id) {
@@ -75,7 +80,7 @@ public class UserController {
     }
 
     @GetMapping("/getMyFavouriteById/{id}")
-    boolean getMyFavouriteById(@PathVariable long id) {
-        return favouriteService.getMyFavouriteById(id);
+    void getMyFavouriteById(@PathVariable long id) {
+        favouriteService.getMyFavouriteById(id);
     }
 }

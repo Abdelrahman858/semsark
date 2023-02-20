@@ -34,6 +34,8 @@ public class UserUpdateMapper {
         if (valid(userDetailsDTO.getGender())) {
             user.setGender(userDetailsDTO.getGender());
         }
+
+
         if (valid(userDetailsDTO.getPhone())) {
             if (!Objects.equals(userDetailsDTO.getPhone(), "0"))
                 user.setPhone(userDetailsDTO.getPhone());

@@ -36,6 +36,14 @@ public class UserDetailsMapper {
             user.setImg(userDetailsDTO.getImg());
         }
 
+        if (valid(userDetailsDTO.getPersonalImg())) {
+            user.setPersonalImg(userDetailsDTO.getPersonalImg());
+        }
+
+        if (valid(userDetailsDTO.getIdImg())) {
+            user.setIdImg(userDetailsDTO.getIdImg());
+        }
+
         if (valid(userDetailsDTO.getEmail())) {
             user.setEmail(userDetailsDTO.getEmail());
         }else
@@ -50,6 +58,8 @@ public class UserDetailsMapper {
         if (valid(userDetailsDTO.getGender())) {
             user.setGender(userDetailsDTO.getGender());
         }
+
+
         if (valid(userDetailsDTO.getPassword())) {
             user.setPassword(bcryptEncoder.encode(userDetailsDTO.getPassword()));
         }else
@@ -64,6 +74,7 @@ public class UserDetailsMapper {
     boolean valid(String obj){
         return (!obj.equals(""));
     }
+
 
     public String generateCommonLangPassword() {
         String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
@@ -92,6 +103,10 @@ public class UserDetailsMapper {
                 .gender(user.getGender())
                 .phone(user.getPhone())
                 .username(user.getUsername())
+                .idImg(user.getIdImg())
+                .personalImg(user.getPersonalImg())
+                .rate(user.getRate())
+                .suspended(user.isSuspended())
                 .build();
     }
 

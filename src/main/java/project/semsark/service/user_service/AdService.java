@@ -83,12 +83,37 @@ public class AdService {
 
         return new ArrayList<>(ads);
     }
+
     public AdResponse getAd(Long id){
        Optional<Building> building = buildingRepository.findById(id);
-       if(building.isPresent())
-           return adMapper.mapTo(building.get());
+       if(building.isPresent()) {
+           Building build=building.get();
+
+           build.setViews(build.getViews()+1);
+
+           return adMapper.mapTo( buildingRepository.save(build));
+       }
        else
            throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.DONT_HAVE_BUILDING);
     }
+
+    public void rateUser(String ownerEmail,Double rate){
+       Optional<User> user= userRepository.findByEmail(ownerEmail);
+
+       if(user.isPresent()){
+           User user1=user.get();
+           user1.setRateCounter(user1.getRateCounter()+1);
+           user1.setRateSum(user1.getRateSum()+rate);
+
+           user1.setRate((user1.getRateSum())/(user1.getRateCounter()));
+           userRepository.save(user1);
+       }else
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.USER_NOT_FOUND);
+
+    }
+
+
+
+
 
 }

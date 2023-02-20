@@ -9,6 +9,9 @@ import project.semsark.model.response_body.AdResponse;
 import project.semsark.repository.PhotosRepository;
 import project.semsark.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Component
 public class AdMapper {
     @Autowired
@@ -18,6 +21,8 @@ public class AdMapper {
     @Autowired
     UserDetailsMapper userDetailsMapper;
     public void mapTo(AdRequest adRequest, Building building) {
+
+        building.setDate(LocalDate.now());
 
         if (adRequest.getAddress() != null) {
             building.setAddress(adRequest.getAddress());
@@ -112,6 +117,9 @@ public class AdMapper {
                 .level(building.getLevel())
                 .finished(building.isFinished())
                 .single(building.isSingle())
+                .views(building.getViews())
+                .date(building.getDate())
+
                 .build();
     }
 

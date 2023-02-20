@@ -3,7 +3,9 @@ package project.semsark.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -30,7 +32,8 @@ public class Building {
     private String gov;
     private String  types;
     private Double price;
-
+    private long views;
+    private LocalDate date;
     private Double lang;
     private Double lat;
     private long area;

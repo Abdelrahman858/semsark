@@ -19,8 +19,14 @@ public class UserDetailsDto {
     private String email;
     private boolean social ;
     private String img;
+    private String personalImg;
+    private String idImg;
     private String password;
     private String gender;
+    private boolean verifyID;
+
+    private boolean suspended;
+    private Double rate;
 
 
 }

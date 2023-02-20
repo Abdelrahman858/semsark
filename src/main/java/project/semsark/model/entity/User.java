@@ -25,6 +25,9 @@ public class User {
     private String email;
     private String password;
     private String phone = "00000000000";
+    private Double rate;
+    private Double rateSum;
+    private long rateCounter;
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
@@ -32,6 +35,8 @@ public class User {
     private boolean verify = false;
     private boolean suspended = false;
     private String img;
+    private String personalImg;
+    private String idImg;
     @OneToMany
     private List<Building> myAds = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)

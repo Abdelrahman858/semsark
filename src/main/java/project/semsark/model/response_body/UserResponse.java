@@ -17,5 +17,11 @@ public class UserResponse {
     private String email;
     private String phone = "00000000000";
     private String img;
+    private String personalImg;
+    private String idImg;
     private List<Building> myAds = new ArrayList<>();
+    private boolean verifyID;
+    private boolean suspended;
+    private Double rate;
+
 }
