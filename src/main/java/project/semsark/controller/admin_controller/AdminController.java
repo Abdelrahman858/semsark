@@ -27,6 +27,11 @@ public class AdminController {
         adminService.deleteUser(request.getEmail());
     }
 
+    @DeleteMapping("/deleteAd/{id}")
+    public void deleteAd(@PathVariable long id) {
+        adminService.deleteAd(id);
+    }
+
     @PostMapping(value = "/suspendUser")
     public void suspendUser(@RequestBody EmailRequest request) {
         adminService.suspendUser(request.getEmail());

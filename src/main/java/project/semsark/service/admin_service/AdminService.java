@@ -5,13 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.semsark.exception.HelperMessage;
+import project.semsark.jwt.JwtUtil;
+import project.semsark.mapper.AdMapper;
 import project.semsark.mapper.UserDetailsMapper;
+import project.semsark.model.entity.Building;
 import project.semsark.model.entity.Profile;
 import project.semsark.model.entity.User;
 import project.semsark.model.enums.ProfileName;
 import project.semsark.model.response_body.UserResponse;
+import project.semsark.repository.BuildingRepository;
 import project.semsark.repository.MainProfileRepository;
 import project.semsark.repository.UserRepository;
+import project.semsark.validation.AdValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,17 @@ public class AdminService {
     @Autowired
     MainProfileRepository profileRepository;
 
+    @Autowired
+    AdValidator adValidator;
+    @Autowired
+    BuildingRepository buildingRepository;
+
+    @Autowired
+    AdMapper adMapper;
+    @Autowired
+    JwtUtil jwtUtil;
+
+
     public void deleteUser(String email){
         Optional<User>user=userRepository.findByEmail(email);
 
@@ -33,6 +49,18 @@ public class AdminService {
             userRepository.deleteById(user.get().getId());
         }else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,HelperMessage.USER_NOT_FOUND);
+    }
+
+    public void deleteAd(long id) {
+        User user = jwtUtil.getUserDataFromToken();
+        Optional<Building> build = buildingRepository.findById(id);
+        if (build.isPresent()) {
+            adValidator.valid(id);
+            Building building = build.get();
+            userRepository.findByEmail(user.getEmail()).get().getMyAds().remove(building);
+            buildingRepository.deleteById(id);
+        } else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.BUILDING_NOT_FOUND);
     }
 
     public void suspendUser(String email){

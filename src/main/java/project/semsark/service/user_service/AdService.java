@@ -59,17 +59,6 @@ public class AdService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.BUILDING_NOT_FOUND);
     }
 
-    public void deleteAd(long id) {
-        User user = jwtUtil.getUserDataFromToken();
-        Optional<Building> build = buildingRepository.findById(id);
-        if (build.isPresent()) {
-            adValidator.valid(id);
-            Building building = build.get();
-            userRepository.findByEmail(user.getEmail()).get().getMyAds().remove(building);
-            buildingRepository.deleteById(id);
-        } else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, HelperMessage.BUILDING_NOT_FOUND);
-    }
 
     /////////////////////////////////////////////////////////////////
 

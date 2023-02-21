@@ -47,10 +47,7 @@ public class UserController {
     }
 
     ////////////////////////////////// DELETE ///////////////////////////////////////////
-    @DeleteMapping("/deleteAd/{id}")
-    void deleteAd(@PathVariable long id) {
-        adService.deleteAd(id);
-    }
+
 
     @DeleteMapping("/deleteFavourite/{id}")
     void deleteFavourite(@PathVariable long id) {
