@@ -86,28 +86,23 @@ public class FCM {
         ref.push().setValueAsync(saveMessage(chatMessage));
     }
 
-//    @GetMapping("/chat-semsark/{receiverEmail}")
-//    public List<Message> getMessages(@PathVariable String receiverEmail) {
-//        Long receiver= userRepository.findByEmail(receiverEmail).get().getId();
-//        User user = jwtUtil.getUserDataFromToken();
-//
-//        Long id=check(user.getId(),receiver);
-//
-//        DatabaseReference ref = database.getReference("chat/"+id);
-//        List<Message> messages = new ArrayList<>();
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    messages.add(snapshot.getValue(Message.class));
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Handle error
-//            }
-//        });
-//        return messages;
-//    }
+    @GetMapping("/room-semsark/{receiverEmail}")
+    public Long getRooms(@PathVariable String receiverEmail) {
+        Long receiver= userRepository.findByEmail(receiverEmail).get().getId();
+        User user = jwtUtil.getUserDataFromToken();
+
+        Long id= check(user.getId(),receiver);
+
+
+        if(id==-1){
+            ChatRoom chatRoom=ChatRoom.builder()
+                    .senderId(user.getId())
+                    .receiverId(receiver)
+                    .build();
+
+            return chatRoomRepository.save(chatRoom).getId();
+        }
+
+        return id;
+    }
 }
