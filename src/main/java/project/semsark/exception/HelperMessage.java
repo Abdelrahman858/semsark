@@ -3,6 +3,7 @@ package project.semsark.exception;
 public class HelperMessage {
     public static final String FORGET_PASSWORD_REQUEST = "OTP sent to your email successfully";
     public static final String EMAIL_WRONG = "Email is wrong!!";
+    public static final String INCORRECT_PASSWORD = "Password is wrong!!";
     public static final String ITEM_NOT_FOUND = "Item Not found";
     public static final String USER_DOES_NOT_HAVE_CART = "This User doesn't have a cart yet";
     public static final String ITEM_ALREADY_IN_CART = "Item Already found in cart";

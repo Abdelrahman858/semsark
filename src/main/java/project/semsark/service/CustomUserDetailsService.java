@@ -134,6 +134,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findAll(userSpecifications).stream()
                 .filter(filterdUser -> passwordEncoder.matches(userSearchParameters.getPassword(), filterdUser.getPassword()))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, HelperMessage.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, HelperMessage.INCORRECT_PASSWORD));
     }
 }
