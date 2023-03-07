@@ -25,9 +25,9 @@ public class User {
     private String email;
     private String password;
     private String phone = "00000000000";
-    private Double rate;
-    private Double rateSum;
-    private long rateCounter;
+    private Double rate=0.0;
+    private Double rateSum=0.0;
+    private long rateCounter=0;
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;

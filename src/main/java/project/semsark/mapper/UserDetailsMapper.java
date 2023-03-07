@@ -72,7 +72,7 @@ public class UserDetailsMapper {
 
     }
     boolean valid(String obj){
-        return (!obj.equals(""));
+        return (obj!=null&&!obj.equals(""));
     }
 
 
