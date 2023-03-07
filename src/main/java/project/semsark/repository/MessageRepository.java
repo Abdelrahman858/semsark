@@ -2,9 +2,9 @@ package project.semsark.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import project.semsark.model.entity.Chat;
+import project.semsark.model.entity.Message;
 
 @Repository
-public interface ChatRepository extends JpaRepository<Chat, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long> {
 
 }

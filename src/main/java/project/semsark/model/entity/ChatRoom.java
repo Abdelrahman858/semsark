@@ -1,9 +1,9 @@
 package project.semsark.model.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 
-import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,14 +11,11 @@ import java.util.Date;
 @ToString
 @Builder
 @Entity
-public class Chat {
+public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
-    private String senderEmail;
-    private String receiverEmail;
-    private String message;
-    private Date date;
-    private boolean status;
+    private Long senderId;
+    private Long receiverId;
 }
