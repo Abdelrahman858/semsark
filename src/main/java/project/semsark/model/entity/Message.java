@@ -19,6 +19,6 @@ public class Message {
     private String senderEmail;
     private String receiverEmail;
     private String message;
-    private String date;
+    private String dates;
     private boolean status;
 }

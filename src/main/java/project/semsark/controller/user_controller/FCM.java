@@ -44,7 +44,7 @@ public class FCM {
         User user = jwtUtil.getUserDataFromToken();
         Message message = Message.builder()
                 .message(chatRequest.getMessage())
-                .date(chatRequest.getDate())
+                .dates(chatRequest.getDate())
                 .status(chatRequest.isStatus())
                 .receiverEmail(chatRequest.getReceiverEmail())
                 .senderEmail(user.getEmail())
