@@ -9,6 +9,7 @@ import project.semsark.model.entity.Favourites;
 import project.semsark.model.entity.User;
 import project.semsark.model.request_body.AdRequest;
 import project.semsark.model.response_body.AdResponse;
+import project.semsark.service.CustomUserDetailsService;
 import project.semsark.service.user_service.AdService;
 import project.semsark.service.user_service.FavouriteService;
 
@@ -24,6 +25,8 @@ public class UserController {
     private FavouriteService favouriteService;
     @Autowired
     JwtUtil jwtUtil;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     ////////////////////////////// ADD //////////////////////////////////////
     @PostMapping("/createAd")
@@ -72,8 +75,8 @@ public class UserController {
     }
 
     @GetMapping("/getUser/{id}")
-    User getUserById(@PathVariable long id) {
-        return jwtUtil.getUserDataById(id);
+    String getUserById(@PathVariable long id) {
+        return customUserDetailsService.getUserDataById(id);
     }
 
     @GetMapping("/getMyFavourite")

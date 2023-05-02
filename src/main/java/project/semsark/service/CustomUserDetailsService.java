@@ -136,4 +136,14 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, HelperMessage.INCORRECT_PASSWORD));
     }
+
+    public String getUserDataById(Long id){
+
+        Optional<User>user =userRepository.findById(id);
+
+        if(user.isPresent()){
+            return user.get().getEmail();
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND);
+    }
 }
