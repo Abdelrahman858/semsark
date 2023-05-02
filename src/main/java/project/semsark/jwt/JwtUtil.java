@@ -120,6 +120,16 @@ public class JwtUtil {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND);
     }
 
+    public User getUserDataById(Long id){
+
+        Optional<User>user =userRepository.findById(id);
+
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, HelperMessage.USER_NOT_FOUND);
+    }
+
     public List<SimpleGrantedAuthority> getRolesFromToken(String token) {
 
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();

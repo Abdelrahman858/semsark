@@ -61,7 +61,7 @@ public class UserController {
         return adService.getMyAds();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/building/{id}")
     AdResponse getAd(@PathVariable long id) {
         return adService.getAd(id);
     }
@@ -69,6 +69,11 @@ public class UserController {
     @GetMapping("/getUser")
     User getUser() {
         return jwtUtil.getUserDataFromToken();
+    }
+
+    @GetMapping("/getUser/{id}")
+    User getUserById(@PathVariable long id) {
+        return jwtUtil.getUserDataById(id);
     }
 
     @GetMapping("/getMyFavourite")
