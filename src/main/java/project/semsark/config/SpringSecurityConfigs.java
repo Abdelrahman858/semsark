@@ -56,10 +56,9 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
         corsConfiguration.setExposedHeaders(Arrays.asList("Authorization", "access-control-allow-credentials", "access-control-allow-headers", "access-control-allow-methods", "access-control-allow-origin"));
 
 
-        http.csrf().disable()
-
+        http.headers().frameOptions().disable().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/email/**", "/common/**", "/forgetPassword/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
+                .antMatchers("/h2-console/**","/actuator/**","/email/**", "/common/**", "/forgetPassword/**", "/insecure/**", "/swagger-ui/**", "/v3/api-docs/**")
                 // to permit urls
 
                 .permitAll()
@@ -67,6 +66,7 @@ public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
                 and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                and().addFilterBefore(customJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).cors().configurationSource(request -> corsConfiguration);
+                and().addFilterBefore(customJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).cors().configurationSource(request -> corsConfiguration)
+        ;
     }
 }
